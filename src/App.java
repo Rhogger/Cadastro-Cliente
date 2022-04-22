@@ -51,13 +51,12 @@ public class App {
 				} while (entrance.length() != qtd_cpf && entrance.length() != qtd_cnpj);
 
 				if (entrance.length() == qtd_cpf) {
-					customer.setNum_cpf(entrance);
-					customer.validationCPF();
+					customer.setNumDocument(entrance);
 					
 				} else {
-					//
+					customer.setNumDocument(entrance);
 				}
-			} while (customer.validationCPF() == false);
+			} while (customer.validationCPF() == false && customer.CNPJisValid(entrance) == false);
 
 			System.out.println("*Deseja manter o cadastro ativo? ");
 			do {
@@ -96,7 +95,7 @@ public class App {
 			System.out.printf("Telefone: %s \n", p.getPhoneNumber());
 			System.out.printf("E-mail: %s \n", p.getEmail());
 			System.out.printf("Endereço: %s \n", p.getAdress());
-			System.out.printf("CPF / CNPJ: %s \n", p.getNum_cpf());
+			System.out.printf("CPF / CNPJ: %s \n", p.getNumDocument());
 			System.out.printf("Status: %s ", p.getStatus());
 
 			System.out.println();

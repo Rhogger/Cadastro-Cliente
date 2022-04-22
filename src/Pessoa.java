@@ -1,12 +1,14 @@
 
 public class Pessoa {
 
+	// Restante dos Dados
 	public int validationStatus;
 	private String name, phoneNumber, email, adress;
 	private boolean status;
 
-	private String num_cpf;
-	private int weight = 10, total = 0, rest, digit1, digit2;
+	// CPF e CNPJ
+	private String numDocument;
+	private int weight, total = 0, rest, digit1, digit2;
 	private boolean validation;
 
 	public Pessoa() {
@@ -14,14 +16,14 @@ public class Pessoa {
 	}
 
 	public Pessoa(int validationStatus, String name, String phoneNumber, String email, String adress, boolean status,
-			String num_cpf) {
+			String numDocument) {
 		this.validationStatus = validationStatus;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.adress = adress;
 		this.status = status;
-		this.num_cpf = num_cpf;
+		this.numDocument = numDocument;
 	}
 
 	public String getName() {
@@ -32,12 +34,53 @@ public class Pessoa {
 		this.name = name;
 	}
 
+	public boolean validationName(String text) {
+
+		validation = true;
+
+		for (int i = 0; i < text.length(); i++) {
+
+			if ((text.charAt(i) < 65 || text.charAt(i) > 90) && (text.charAt(i) < 97 || text.charAt(i) > 122)) {
+				this.validation = false;
+				break;
+			}
+		}
+
+		return validation;
+	}
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean validationEmail(String text) {
+
+		// @
+		boolean hasAt = false;
+		// .
+		boolean hasDot = false;
+
+		validation = true;
+
+		for (int i = 0; i < text.length(); i++) {
+
+			if (text.charAt(i) == 64 && hasAt == false) {
+				hasAt = true;
+			}
+
+			if (hasAt == true && text.charAt(i) == 46 && hasDot == false) {
+				hasDot = true;
+			}
+		}
+
+		validation = hasAt && hasDot;
+
+		return validation;
+
 	}
 
 	public String getAdress() {
@@ -73,23 +116,19 @@ public class Pessoa {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "Nome: " + name + "\nTelefone: " + phoneNumber + "\nE-mail: " + email + "\nEndereço: " + adress
-				+ "Status: " + getStatus() + "\n\n";
+	// CPF
+
+	public String getNumDocument() {
+		return numDocument;
 	}
 
-	public String getNum_cpf() {
-		return num_cpf;
+	public void setNumDocument(String numDocument) {
+		this.numDocument = numDocument;
 	}
 
-	public void setNum_cpf(String num_cpf) {
-		this.num_cpf = num_cpf;
-	}
-
-	public void validation_1st_digit() {
+	public void validation_1st_digit_cpf() {
 		for (int i = 0; i < 9; i++) {
-			total += weight * Integer.parseInt(this.num_cpf.substring(i, i + 1));
+			total += weight * Integer.parseInt(this.numDocument.substring(i, i + 1));
 			weight--;
 		}
 
@@ -100,16 +139,16 @@ public class Pessoa {
 			this.digit1 = 11 - rest;
 		}
 
-		validation_2nd_digit();
+		validation_2nd_digit_cpf();
 
 	}
 
-	public void validation_2nd_digit() {
+	public void validation_2nd_digit_cpf() {
 		weight = 11;
 		total = 0;
 
 		for (int i = 0; i < 10; i++) {
-			total += weight * Integer.parseInt(this.num_cpf.substring(i, i + 1));
+			total += weight * Integer.parseInt(this.numDocument.substring(i, i + 1));
 			weight--;
 		}
 
@@ -123,13 +162,13 @@ public class Pessoa {
 	}
 
 	public boolean validationCPF() {
-		validation_1st_digit();
-		int p1 = Integer.parseInt(num_cpf.substring(9, 10));
-		int p2 = Integer.parseInt(num_cpf.substring(10));
+		validation_1st_digit_cpf();
+		int p1 = Integer.parseInt(numDocument.substring(9, 10));
+		int p2 = Integer.parseInt(numDocument.substring(10));
 
-		if (num_cpf == "11111111111" || num_cpf == "22222222222" || num_cpf == "33333333333" || num_cpf == "44444444444"
-				|| num_cpf == "55555555555" || num_cpf == "66666666666" || num_cpf == "77777777777"
-				|| num_cpf == "88888888888" || num_cpf == "99999999999") {
+		if (numDocument == "11111111111" || numDocument == "22222222222" || numDocument == "33333333333"
+				|| numDocument == "44444444444" || numDocument == "55555555555" || numDocument == "66666666666"
+				|| numDocument == "77777777777" || numDocument == "88888888888" || numDocument == "99999999999") {
 			validation = true;
 		} else if (p1 == this.digit1 && p2 == this.digit2) {
 			validation = true;
@@ -141,50 +180,66 @@ public class Pessoa {
 		return validation;
 	}
 
-	public int getTotal() {
-		return total;
-	}
+	public int CNPJ_1st_digit(String text) {
 
-	public boolean validationName(String text) {
-		
-		validation = true;
+		int weight = 2, total = 0, rest, digit1 = 0;
 
-		for (int i = 0; i < text.length(); i++) {
-
-			if ((text.charAt(i) < 65 || text.charAt(i) > 90) && (text.charAt(i) < 97 || text.charAt(i) > 122)) {
-				this.validation = false;
-				break;
-			}
-		}
-
-		return validation;
-	}
-
-	public boolean validationEmail(String text) {
-		
-		// @
-		boolean hasAt = false;
-		// .
-		boolean hasDot = false;
-		
-		validation = true;
-		
-		for (int i = 0; i < text.length(); i++) {
-
-			if (text.charAt(i) == 64 && hasAt == false) {
-				hasAt = true;
+		for (int i = 11; i >= 0; i--, weight++) {
+			
+			if (weight == 10) {
+				weight = 2;
 			}
 			
-			if(hasAt == true && text.charAt(i) == 46 && hasDot == false) {
-				hasDot = true;
-			}
-		}
-		
+			String item = text.substring(i, i + 1);
+			total += weight * Integer.parseInt(item);
+			
 
-		validation = hasAt && hasDot;
+		}
+
+		if (total % 11 < 2) {
+			this.digit1 = 0;
+		} else {
+			rest = total % 11;
+			this.digit1 = 11 - rest;
+		}
+
+		return digit1;
+
+	}
+
+	public int CNPJ_2nd_digit(String text) {
+
+		int weight = 2, total = 0, rest, digit2 = 0;
+
+		for (int i = 12; i >= 0; i--, weight++) {
+
+			if (weight == 10) {
+				weight = 2;
+			}
+			
+			total += weight * Integer.parseInt(text.substring(i, i + 1));
+
+
+		}
+
+		if (total % 11 < 2) {
+			this.digit2 = 0;
+		} else {
+			rest = total % 11;
+			this.digit2 = 11 - rest;
+		}
+
+		return digit2;
+
+	}
+
+	public boolean CNPJisValid(String text) {
+		int digit1 = Integer.parseInt(text.substring(12, 13));
+		int digit2 = Integer.parseInt(text.substring(13));
 		
-		return validation ;
-		
+		boolean result = (digit1 == CNPJ_1st_digit(text)) && (digit2 == CNPJ_2nd_digit(text));
+
+		return result;
 	}
 
 }
