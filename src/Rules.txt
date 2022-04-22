@@ -1,0 +1,20 @@
+Crie um sistema em java para realizar um cadastro de clientes onde o sistema deverá receber os seguintes dados
+*Nome;
+*Telefone;
+*E-mail;
+*Endereço;
+*CPF/CNPJ;
+status(ATIVO/INATIVO);
+
+Todos os campos precedidos de são obrigatórios
+
+Validações:
+
+O sistema não deverá aceitar ser informado um e-mail inválido;
+Os agendamentos podem ser realizados tanto para pessoa física, como, para pessoa jurídica. Com base nisso garanta que o sistema não aceite CPF ou CNPJ inválido;
+
+O usuário poderá cadastrar N registros, ao termino informe da leitura dos registros imprima todos os registro lido.
+
+Não se faz necessário de interface gráfica. Pode fazer todo o processo com laço de repetição fazendo leitura direto no terminal. 
+
+Assim que concluir envie para um repositório do github e me envie o link por favor. Você deve esta me enviando a atividade até Sexta feira 18:00 dessa semana
